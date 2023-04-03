@@ -1,5 +1,5 @@
-import api from './router/api';
 import express from 'express';
+import api from './router/api';
 
 const app = express();
 

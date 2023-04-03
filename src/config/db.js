@@ -1,15 +1,17 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose';
 
 const connectDB = async () => {
-  const mongoURL = "https://"
+  const mongoURL = 'mongodb+srv://superpants2000:pLKf9nPMR4u5FDpt@airbean.r1kmvyo.mongodb.net/?retryWrites=true&w=majority';
   try {
     await mongoose.connect(mongoURL, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,  
+      useUnifiedTopology: true,
     });
-    console.log("MongoDB Connection Success 👍");
-  } catch(error) {
-    console.log("MongoDB Connection Failed 💥");
+    console.log('MongoDB Connection Success 👍');
+  } catch (error) {
+    console.log('MongoDB Connection Failed 💥');
     process.exit(1);
   }
-}
+};
+
+export default connectDB;
