@@ -1,6 +1,6 @@
-import express from 'express';
-import api from './router/api.js';
-import connectDB from './config/db.js';
+import express from "express";
+import api from "./router/api.js";
+import connectDB from "./config/db.js";
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use('/api', api);
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log('Server running on port ', PORT);
+  console.log("Server running on port ", PORT);
 });

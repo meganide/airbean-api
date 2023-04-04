@@ -1,7 +1,13 @@
-import mongoose from "mongoose";
+import { Order } from "./beans.schema.js";
 
-const orderSchema = mongoose.model({
-  name: { type: String, required: true },
-});
+async function createOrder(orderDetails) {
+  const newOrder = new Order({
+    orderDetails
+  });
 
-export default mongoose.model("orders", orderSchema);
+  await newOrder.save();
+
+  return newOrder;
+}
+
+export { createOrder };
