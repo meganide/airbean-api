@@ -56,16 +56,17 @@ function httpGetMenu() {}
 async function httpCreateOrder(req, res) {
   const { order } = req.body;
 
-  const productsInMenu = order.every((currentOrder) => {
-    const productExists = temporaryMenu.some(
-      (product) => product.title === currentOrder.name && product.price === currentOrder.price
-    );
-    return productExists;
+  const productExists = order.forEach((currentOrder) => {
+    return temporaryMenu.some((product) => {
+      if (product.title === currentOrder.name && product.price === currentOrder.price) return true;
+      else if (product.title === currentOrder.name) {
+        return res.status(404).json({ success: false, error: `Don't cheat with prices!` });
+      } else if (product.price === currentOrder.price) {
+        return res.status(404).json({ success: false, error: `The product ${currentOrder.name} does not exist.` });
+      }
+      return false;
+    });
   });
-
-  if (!productsInMenu) {
-    return res.status(404).json({ success: false, error: "Product does not exist." });
-  }
 
   try {
     const newOrder = await createOrder(order);
