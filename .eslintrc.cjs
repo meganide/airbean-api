@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    browser: true,  
+    browser: true,
     es2021: true,
   },
   extends: ["airbnb-base", "prettier"],
@@ -11,10 +11,9 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": ["error", {"endOfLine": "auto"}],
     "linebreak-style": "off",
     "no-console": "off",
     "import/extensions": "off",
-    endOfLine: "auto",
   },
 };

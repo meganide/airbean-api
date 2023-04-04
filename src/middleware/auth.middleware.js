@@ -1,23 +1,24 @@
-import jwt from 'jsonwebtoken';
-import { findUserById } from '../models/user/user.model.js';
+import jwt from "jsonwebtoken";
+import { findUserById } from "../models/user/user.model.js";
 
 const checkValidToken = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
 
-    if (!token) return res.status(401).json({ success: false, error: 'Unauthorized access' });
+    if (!token) return res.status(401).json({ success: false, error: "Unauthorized access" });
 
-    const decodedData = jwt.verify(token, 'super-pants-secret-key');
+    const decodedData = jwt.verify(token, "super-pants-secret-key");
 
     const user = await findUserById(decodedData.userId);
-    if (!user) return res.status(401).json({ success: false, error: 'Unauthorized access' });
+    if (!user) return res.status(401).json({ success: false, error: "Unauthorized access" });
 
-    if (decodedData.iat > decodedData.exp) return res.status(401).json({ success: false, error: 'Unauthorized access' });
+    if (decodedData.iat > decodedData.exp)
+      return res.status(401).json({ success: false, error: "Unauthorized access" });
 
     res.locals.userId = decodedData.userId;
     return next();
   } catch (error) {
-    return res.status(401).json({ message: 'Internal server error' });
+    return res.status(401).json({ message: "Internal server error" });
   }
 };
 

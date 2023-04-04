@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale/index.js";
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const menuSchema = new Schema({
   title: { type: String, required: true },
