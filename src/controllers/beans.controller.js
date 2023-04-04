@@ -11,17 +11,12 @@ function httpGetMenu(req, res) {
 async function httpCreateOrder(req, res) {
   const { order } = req.body;
 
-  const menu = await Menu.find();
-  const hasErrors = validateOrder(res, order, menu);
-
-  if (!hasErrors) {
-    try {
-      const newOrder = await createOrder(order);
-      return res.status(201).json({ order: newOrder });
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({ success: false, error: error.message });
-    }
+  try {
+    const newOrder = await createOrder(order);
+    return res.status(201).json({ order: newOrder });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error: error.message });
   }
 }
 
