@@ -28,3 +28,16 @@ export const httpLogin = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const httpUserTokenStatus = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    if(!token) return res.status(401).json({ success: true, error: 'Token not provided' });
+    const decodedData = jwt.decode(token);
+    let dateNow = new Date();
+    if (decodedData.exp < dateNow.getTime()/1000) return res.status(401).json({ success: true, error: 'Token expired' });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

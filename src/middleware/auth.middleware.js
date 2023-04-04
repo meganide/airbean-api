@@ -12,7 +12,8 @@ const checkValidToken = async (req, res, next) => {
     const user = await findUserById(decodedData.userId);
     if (!user) return res.status(401).json({ success: false, error: 'Unauthorized access' });
 
-    if (decodedData.iat > decodedData.exp) return res.status(401).json({ success: false, error: 'Unauthorized access' });
+    let dateNow = new Date();
+    if (decodedData.exp < dateNow.getTime()/1000) return res.status(401).json({ success: false, error: 'Unauthorized access' });
 
     res.locals.userId = decodedData.userId;
     return next();
