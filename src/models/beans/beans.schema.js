@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const menuSchema = new Schema({
+    title: { type : String, required: true},
+    desc: { type : String, required: true},
+    price: { type : Number, required: true},
+})
+
+const Menu = mongoose.model('MenuItem', menuSchema)
+
+const orderSchema = new Schema({
   orderNr: { type: String, default: () => Math.random() * 10 },
   eta: { type: Number, default: Math.random() * 50 },
   orderDetails: [
@@ -24,4 +34,4 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-export { Order };
+export { Order, Menu };

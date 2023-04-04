@@ -1,4 +1,13 @@
+
+import Menu from "../models/beans/beans.schema.js"
 import { createOrder } from "../models/beans/beans.model.js";
+
+function httpGetMenu(req, res) {
+    Menu.find()
+    .then((result) => {
+        res.send(result)
+    })
+}
 
 const temporaryMenu = [
   {
@@ -52,6 +61,7 @@ const temporaryMenu = [
 ];
 
 function httpGetMenu() {}
+
 
 async function httpCreateOrder(req, res) {
   const { order } = req.body;
