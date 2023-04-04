@@ -1,12 +1,10 @@
-
-import Menu from "../models/beans/beans.schema.js"
+import { Menu } from "../models/beans/beans.schema.js";
 import { createOrder } from "../models/beans/beans.model.js";
 
 function httpGetMenu(req, res) {
-    Menu.find()
-    .then((result) => {
-        res.send(result)
-    })
+  Menu.find().then((result) => {
+    res.send(result);
+  });
 }
 
 const temporaryMenu = [
@@ -60,30 +58,55 @@ const temporaryMenu = [
   },
 ];
 
-function httpGetMenu() {}
-
-
 async function httpCreateOrder(req, res) {
   const { order } = req.body;
 
-  const productExists = order.forEach((currentOrder) => {
-    return temporaryMenu.some((product) => {
+  let failureReason = "";
+  let hasErrors = false;
+  
+  const menu = await Menu.find();
+
+  order.forEach((currentOrder) => {
+    const productExists = temporaryMenu.some((product) => {
       if (product.title === currentOrder.name && product.price === currentOrder.price) return true;
       else if (product.title === currentOrder.name) {
-        return res.status(404).json({ success: false, error: `Don't cheat with prices!` });
+        failureReason = "price";
       } else if (product.price === currentOrder.price) {
-        return res.status(404).json({ success: false, error: `The product ${currentOrder.name} does not exist.` });
+        failureReason = "name";
       }
       return false;
     });
+
+    if (!productExists) {
+      hasErrors = true;
+      if (failureReason === "price") {
+        return res.status(404).json({
+          success: false,
+          error: `Product ${currentOrder.name} with price ${currentOrder.price} does not exist`,
+        });
+      } else if (failureReason === "name") {
+        return res
+          .status(404)
+          .json({ success: false, error: `Product with name ${currentOrder.name} does not exist.` });
+      } else {
+        return res
+          .status(404)
+          .json({
+            success: false,
+            error: `Product with name ${currentOrder.name} and price ${currentOrder.price} does not exist.`,
+          });
+      }
+    }
   });
 
-  try {
-    const newOrder = await createOrder(order);
-    return res.status(201).json({ order: newOrder });
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json({ success: false, error: error.message });
+  if (!hasErrors) {
+    try {
+      const newOrder = await createOrder(order);
+      return res.status(201).json({ order: newOrder });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ success: false, error: error.message });
+    }
   }
 }
 
