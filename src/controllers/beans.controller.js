@@ -58,6 +58,9 @@ const temporaryMenu = [
   },
 ];
 
+function httpGetMenu() {}
+
+
 async function httpCreateOrder(req, res) {
   const { order } = req.body;
 

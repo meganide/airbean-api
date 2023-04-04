@@ -8,7 +8,7 @@ const menuSchema = new Schema({
     price: { type : Number, required: true},
 })
 
-const Menu = mongoose.model('MenuItem', menuSchema)
+const Menu = mongoose.model('Menu', menuSchema)
 
 const orderSchema = new Schema({
   orderNr: { type: String, default: () => Math.random() * 10 },

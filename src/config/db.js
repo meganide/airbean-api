@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   const mongoURL = 'mongodb+srv://superpants2000:pLKf9nPMR4u5FDpt@airbean.r1kmvyo.mongodb.net/Beans?retryWrites=true&w=majority';
-  
   try {
     await mongoose.connect(mongoURL, {
       useNewUrlParser: true,
