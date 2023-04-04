@@ -1,6 +1,5 @@
 import { Menu } from "../models/beans/beans.schema.js";
 import { createOrder } from "../models/beans/beans.model.js";
-import { validateOrder } from "../utils/helpers.js";
 
 function httpGetMenu(req, res) {
   Menu.find().then((result) => {

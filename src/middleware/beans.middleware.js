@@ -44,4 +44,4 @@ function getErrorMessage(failureReason, order) {
   }
 }
 
-export { validateOrder, getErrorMessage };
+export { validateOrder };
