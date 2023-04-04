@@ -1,5 +1,5 @@
 
-import Menu from "../models/beans/beans.schema.js"
+import { Menu } from "../models/beans/beans.schema.js"
 import { createOrder } from "../models/beans/beans.model.js";
 
 function httpGetMenu(req, res) {
@@ -59,8 +59,6 @@ const temporaryMenu = [
     price: 50,
   },
 ];
-
-function httpGetMenu() {}
 
 
 async function httpCreateOrder(req, res) {
