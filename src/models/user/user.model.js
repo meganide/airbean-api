@@ -1,12 +1,8 @@
 import User from "./user.schema.js";
 
-export const checkIfUserExists = async (username) => {
+export const findUserByUsername = async (username) => {
     const user = await User.findOne({ username: username });
-    if(user?.username == username) {
-        return true;
-    } else {
-        return false;
-    }
+    return user;
 };
 
 export const findUserById = async (id) => {
@@ -17,4 +13,4 @@ export const findUserById = async (id) => {
 export const createUser = async (username, password) => {
     const user = await User.create({ username, password });
     return user;
-}
+};
