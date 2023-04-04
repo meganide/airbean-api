@@ -13,4 +13,4 @@ export const findUserById = async (id) => {
 export const createUser = async (username, password) => {
     const user = await User.create({ username, password });
     return user;
-}
+};
