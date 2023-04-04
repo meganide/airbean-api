@@ -1,8 +1,8 @@
 import User from "./user.schema.js";
 
 export const checkIfUserExists = async (username) => {
-    const user = await User.findOne({ username });
-    if(user) {
+    const user = await User.findOne({ username: username });
+    if(user?.username == username) {
         return true;
     } else {
         return false;
