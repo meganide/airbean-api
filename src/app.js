@@ -8,7 +8,7 @@ connectDB();
 
 app.use(express.json());
 
-app.use('/api', api);
+app.use("/api", api);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
