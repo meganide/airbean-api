@@ -7,12 +7,13 @@ const checkValidToken = async (req, res, next) => {
 
     if (!token) return res.status(401).json({ success: false, error: "Unauthorized access" });
 
-    const decodedData = jwt.verify(token, "super-pants-secret-key");
+    const decodedData = jwt.decode(token);
 
     const user = await findUserById(decodedData.userId);
     if (!user) return res.status(401).json({ success: false, error: "Unauthorized access" });
 
-    if (decodedData.iat > decodedData.exp)
+    const dateNow = new Date();
+    if (decodedData.exp < dateNow.getTime() / 1000)
       return res.status(401).json({ success: false, error: "Unauthorized access" });
 
     res.locals.userId = decodedData.userId;
