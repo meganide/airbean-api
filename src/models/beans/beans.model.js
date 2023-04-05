@@ -2,7 +2,7 @@ import { Order } from "./beans.schema.js";
 
 async function createOrder(orderDetails) {
   const newOrder = new Order({
-    orderDetails
+    orderDetails,
   });
 
   await newOrder.save();
@@ -10,4 +10,5 @@ async function createOrder(orderDetails) {
   return newOrder;
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export { createOrder };
