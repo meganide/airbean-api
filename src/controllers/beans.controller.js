@@ -1,5 +1,5 @@
 import { Menu } from "../models/beans/beans.schema.js";
-import { createOrder } from "../models/beans/beans.model.js";
+import { createOrder, getEtaByOrderNr } from "../models/beans/beans.model.js";
 
 function httpGetMenu(req, res) {
   Menu.find().then((result) => {
@@ -15,9 +15,20 @@ async function httpCreateOrder(req, res) {
     const newOrder = await createOrder(order, userId);
     return res.status(201).json({ order: newOrder });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({ success: false, error: error.message });
   }
 }
 
-export { httpGetMenu, httpCreateOrder };
+async function httpGetEtaByOrderNr(req, res) {
+  const { orderNr } = req.params;
+
+  const eta = await getEtaByOrderNr(orderNr);
+
+  if (eta > 0) {
+    return res.status(200).json({ eta });
+  }
+
+  return res.status(200).json({ success: false, error: "Ingen aktiv beställning" });
+}
+
+export { httpGetMenu, httpCreateOrder, httpGetEtaByOrderNr };

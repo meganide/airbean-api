@@ -12,7 +12,6 @@ function validateToken(req, res, next) {
         const decoded = jwt.verify(token, "super-pants-secret-key");
         req.userId = decoded.userId;
       } catch (err) {
-        console.log("Token verification failed: ", err);
         return res.status(401).json({ success: false, error: err.message });
       }
     }
