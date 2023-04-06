@@ -7,6 +7,7 @@ import { Order } from "./beans.schema.js";
 async function createOrder(orderDetails, userId) {
   const newOrder = new Order({
     orderDetails,
+    total: orderDetails.reduce((acc, cur) => acc + cur.price, 0),
   });
 
   if (userId) {
