@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import jwt from "jsonwebtoken";
 import { findUserByUsername, createUser } from "../models/user/user.model.js";
-import { Order } from "../models/beans/beans.schema.js";
+import { findOrders } from "../models/beans/beans.model.js";
 
 export const httpSignup = async (req, res) => {
   const { username, password } = req.body;
@@ -50,8 +50,8 @@ export const httpUserTokenStatus = async (req, res) => {
 export const httpGetOrderHistory = async (req, res) => {
   const userId = req.userId;
   if (userId) {
-    Order.find({ userId })
-    .then((result) => {
-    res.send(result)});
+    const orderData = await findOrders(userId);
+    res.send({success: true, orderHistory : [orderData]});
   }
+
 }

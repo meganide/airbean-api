@@ -14,5 +14,11 @@ async function createOrder(orderDetails, userId) {
   return newOrder;
 }
 
+async function findOrders(userId) {
+  
+  const orderData = await Order.find({ userId }).select("orderNr createdAt total")
+  return orderData;
+}
+
 // eslint-disable-next-line import/prefer-default-export
-export { createOrder };
+export { createOrder, findOrders };
