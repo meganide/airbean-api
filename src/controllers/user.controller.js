@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import jwt from "jsonwebtoken";
 import { findUserByUsername, createUser } from "../models/user/user.model.js";
+import { Order } from "../models/beans/beans.schema.js";
 
 export const httpSignup = async (req, res) => {
   const { username, password } = req.body;
@@ -45,3 +46,12 @@ export const httpUserTokenStatus = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const httpGetOrderHistory = async (req, res) => {
+  const userId = req.userId;
+  if (userId) {
+    Order.find({ userId })
+    .then((result) => {
+    res.send(result)});
+  }
+}
