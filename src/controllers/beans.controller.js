@@ -9,9 +9,10 @@ function httpGetMenu(req, res) {
 
 async function httpCreateOrder(req, res) {
   const { order } = req.body;
+  const { userId } = req;
 
   try {
-    const newOrder = await createOrder(order);
+    const newOrder = await createOrder(order, userId);
     return res.status(201).json({ order: newOrder });
   } catch (error) {
     console.log(error);
