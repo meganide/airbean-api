@@ -16,6 +16,7 @@ const orderSchema = new Schema({
   orderNr: { type: String, default: () => new mongoose.mongo.ObjectId(), unique: true, index: true, required: true },
   userId: { type: String, required: false },
   eta: { type: Number, default: () => Math.floor(Math.random() * 54) + 7 },
+  total: { type: Number, required: true },
   orderDetails: [
     {
       name: {
