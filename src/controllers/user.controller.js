@@ -48,10 +48,9 @@ export const httpUserTokenStatus = async (req, res) => {
 };
 
 export const httpGetOrderHistory = async (req, res) => {
-  const userId = req.userId;
+  const { userId } = req;
   if (userId) {
     const orderData = await findOrders(userId);
-    res.send({success: true, orderHistory : [orderData]});
+    res.send({ success: true, orderHistory: [orderData] });
   }
-
-}
+};
