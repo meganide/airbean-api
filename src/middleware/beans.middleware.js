@@ -1,4 +1,4 @@
-import { Menu } from "../models/beans/beans.schema.js";
+import { Menu, Order } from "../models/beans/beans.schema.js";
 
 function getErrorMessage(failureReason, order) {
   if (failureReason === "price") {
@@ -10,6 +10,7 @@ function getErrorMessage(failureReason, order) {
   return `Product with name ${order.name} and price ${order.price} does not exist.`;
 }
 
+// eslint-disable-next-line consistent-return
 async function validateOrder(req, res, next) {
   const { order } = req.body;
   const menu = await Menu.find();
@@ -43,9 +44,19 @@ async function validateOrder(req, res, next) {
   if (!hasErrors) {
     return next();
   }
+}
 
+async function validateOrderNumber(req, res, next) {
+  const { orderNr } = req.params;
+  if (orderNr) {
+    const order = await Order.findOne({ orderNr });
+    if (order) {
+      return next();
+    }
+    return res.status(404).json({ success: false, error: "Order not found" });
+  }
   return res.status(400).json({ success: false, error: "Bad request" });
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export { validateOrder };
+export { validateOrder, validateOrderNumber };

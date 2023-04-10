@@ -47,10 +47,10 @@ export const httpUserTokenStatus = async (req, res) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
 export const httpGetOrderHistory = async (req, res) => {
   const { userId } = req;
-  if (userId) {
-    const orderData = await findOrders(userId);
-    res.send({ success: true, orderHistory: [orderData] });
-  }
+  if (!userId) return res.status(401).json({ success: false, error: "Not authorized" });
+  const orderData = await findOrders(userId);
+  res.send({ success: true, orderHistory: orderData.completedOrders, pendingOrders: orderData.activeOrders });
 };

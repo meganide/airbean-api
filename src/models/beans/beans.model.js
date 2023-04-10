@@ -20,8 +20,23 @@ async function createOrder(orderDetails, userId) {
 }
 
 async function findOrders(userId) {
-  const orderData = await Order.find({ userId }).select("orderNr createdAt total");
-  return orderData;
+  const orderData = await Order.find({ userId }).select("orderNr createdAt total eta");
+  const activeOrders = [];
+  const completedOrders = [];
+
+  orderData.forEach((order) => {
+    const expectedDeliveryISO = add(parseISO(order.createdAt), { minutes: order.eta });
+    const currentDate = new Date();
+    const currentEta = differenceInMinutes(expectedDeliveryISO, currentDate, { roundingMethod: "ceil" });
+
+    if (currentEta > 0) {
+      activeOrders.push(order);
+    } else {
+      completedOrders.push(order);
+    }
+  });
+
+  return { activeOrders, completedOrders };
 }
 
 async function getEtaByOrderNr(orderNr) {
