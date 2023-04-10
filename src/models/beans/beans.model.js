@@ -19,13 +19,10 @@ async function createOrder(orderDetails, userId) {
   return newOrder;
 }
 
-
 async function findOrders(userId) {
-  
-  const orderData = await Order.find({ userId }).select("orderNr createdAt total")
+  const orderData = await Order.find({ userId }).select("orderNr createdAt total");
   return orderData;
 }
-
 
 async function getEtaByOrderNr(orderNr) {
   const { eta, createdAt } = await Order.findOne({ orderNr }).select("eta createdAt");
